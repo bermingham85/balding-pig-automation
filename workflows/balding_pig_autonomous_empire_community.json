@@ -1,0 +1,203 @@
+{
+  "name": "Balding Pig - Autonomous Empire (Community Nodes)",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 6 * * *",
+        "triggerAtStartup": false
+      },
+      "id": "daily_trigger",
+      "name": "Daily Automation Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "query": "trending bald memes 2025 merchandise viral content satirical humor",
+        "maxResults": 10
+      },
+      "id": "trend_search",
+      "name": "Trend Research",
+      "type": "n8n-nodes-tavily.tavily",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "model": "deepseek-chat",
+        "messages": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are The Balding Pig's creative director. Create witty, satirical product ideas that embrace baldness with humor and confidence. Focus on merchandise that bald people would proudly wear or use."
+            },
+            {
+              "role": "user", 
+              "content": "Based on these trending topics: {{ JSON.stringify($json.results) }}, create 3 product ideas for The Balding Pig merchandise line. Include product name, category (t-shirt/hoodie/mug/cap/stickers), target price, and funny description."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 500
+        }
+      },
+      "id": "product_ideation",
+      "name": "AI Product Ideation",
+      "type": "n8n-nodes-deepseek.deepseek",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "code": "// Parse AI response and format product data\nconst aiResponse = $json.message?.content || $json.response || '';\nconst products = [];\n\n// Try to extract product information from AI response\nconst lines = aiResponse.split('\\n');\nlet currentProduct = {};\n\nfor (const line of lines) {\n  const trimmed = line.trim();\n  \n  // Look for product patterns\n  if (trimmed.includes('Product') && trimmed.includes(':')) {\n    if (currentProduct.name) {\n      products.push(currentProduct);\n    }\n    currentProduct = {\n      name: trimmed.replace(/^\\d+\\.?\\s*Product\\s*\\d*:?\\s*/i, '').trim(),\n      category: 't-shirt',\n      price: 25.99,\n      description: '',\n      tags: ['bald', 'humor', 'confidence', 'balding-pig'],\n      created_date: new Date().toISOString()\n    };\n  } else if (trimmed.toLowerCase().includes('category') && currentProduct.name) {\n    const categoryMatch = trimmed.match(/(t-shirt|hoodie|mug|cap|stickers)/i);\n    if (categoryMatch) {\n      currentProduct.category = categoryMatch[1].toLowerCase();\n      // Set appropriate price based on category\n      const prices = {\n        't-shirt': 25.99,\n        'hoodie': 45.99,\n        'mug': 15.99,\n        'cap': 19.99,\n        'stickers': 4.99\n      };\n      currentProduct.price = prices[currentProduct.category] || 25.99;\n    }\n  } else if (trimmed.toLowerCase().includes('price') && currentProduct.name) {\n    const priceMatch = trimmed.match(/\\$?([0-9.]+)/);\n    if (priceMatch) {\n      currentProduct.price = parseFloat(priceMatch[1]);\n    }\n  } else if (trimmed.toLowerCase().includes('description') && currentProduct.name) {\n    currentProduct.description = trimmed.replace(/^description:?\\s*/i, '').trim();\n  }\n}\n\n// Add the last product\nif (currentProduct.name) {\n  products.push(currentProduct);\n}\n\n// If we didn't parse products properly, create default ones\nif (products.length === 0) {\n  products.push({\n    name: 'Chrome Dome Champion',\n    category: 't-shirt',\n    price: 25.99,\n    description: 'For the confidently bald warrior',\n    tags: ['bald', 'humor', 'confidence', 'balding-pig'],\n    ai_content: aiResponse,\n    created_date: new Date().toISOString()\n  });\n}\n\nreturn products.map(product => ({ json: product }));"
+      },
+      "id": "product_parser",
+      "name": "Parse Products",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "prompt": "Create a minimalist, satirical design for '{{ $json.name }}' - a {{ $json.category }} for The Balding Pig brand. Style should be clean, humorous, and celebrate baldness with confidence. Include subtle pig elements if appropriate.",
+        "width": 512,
+        "height": 512,
+        "steps": 25,
+        "cfg_scale": 7,
+        "seed": -1
+      },
+      "id": "design_generator",
+      "name": "Generate Design",
+      "type": "n8n-nodes-comfyui.comfyui",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "code": "// Final product formatting for e-commerce platforms\nconst finalProduct = {\n  // Basic product info\n  title: $json.name,\n  category: $json.category,\n  price: $json.price,\n  description: $json.description,\n  \n  // SEO and marketing\n  tags: [\n    'bald merchandise',\n    'baldness humor',\n    'chrome dome',\n    'follicle challenged',\n    'the balding pig',\n    $json.category,\n    'satirical gifts',\n    'bald pride'\n  ],\n  \n  // Product variants by category\n  variants: getVariants($json.category),\n  \n  // Inventory and status\n  inventory_count: 50,\n  status: 'draft',\n  \n  // Generated design\n  design_url: $('design_generator').item?.json?.image_url || 'https://placeholder.com/400x400?text=' + encodeURIComponent($json.name),\n  \n  // Platform-specific data\n  shopify_ready: true,\n  etsy_ready: true,\n  facebook_shop_ready: true,\n  \n  // Timestamps\n  created_date: new Date().toISOString(),\n  last_updated: new Date().toISOString(),\n  \n  // Source tracking\n  generated_by: 'balding_pig_ai_system',\n  trend_source: $('trend_search').item?.json?.url || 'ai_generated'\n};\n\nfunction getVariants(category) {\n  const variantOptions = {\n    't-shirt': [\n      { size: 'S', sku: 'BP-TS-S', inventory: 10 },\n      { size: 'M', sku: 'BP-TS-M', inventory: 15 },\n      { size: 'L', sku: 'BP-TS-L', inventory: 15 },\n      { size: 'XL', sku: 'BP-TS-XL', inventory: 10 },\n      { size: 'XXL', sku: 'BP-TS-XXL', inventory: 5 }\n    ],\n    'hoodie': [\n      { size: 'S', sku: 'BP-HD-S', inventory: 5 },\n      { size: 'M', sku: 'BP-HD-M', inventory: 10 },\n      { size: 'L', sku: 'BP-HD-L', inventory: 10 },\n      { size: 'XL', sku: 'BP-HD-XL', inventory: 8 },\n      { size: 'XXL', sku: 'BP-HD-XXL', inventory: 3 }\n    ],\n    'mug': [\n      { size: '11oz', sku: 'BP-MG-11', inventory: 20 },\n      { size: '15oz', sku: 'BP-MG-15', inventory: 15 }\n    ],\n    'cap': [\n      { size: 'One Size', sku: 'BP-CP-OS', inventory: 25 }\n    ],\n    'stickers': [\n      { size: 'Pack of 5', sku: 'BP-ST-5', inventory: 30 },\n      { size: 'Pack of 10', sku: 'BP-ST-10', inventory: 20 }\n    ]\n  };\n  \n  return variantOptions[category] || [{ size: 'One Size', sku: 'BP-DEFAULT', inventory: 10 }];\n}\n\nreturn { json: finalProduct };"
+      },
+      "id": "final_formatter",
+      "name": "Final Product Formatter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://webhook.site/your-product-webhook",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Balding-Pig-Auth",
+              "value": "autonomous-system-v1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "create_product"
+            },
+            {
+              "name": "product_data",
+              "value": "={{ JSON.stringify($json) }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "name": "source_workflow",
+              "value": "autonomous_empire"
+            }
+          ]
+        }
+      },
+      "id": "publish_product",
+      "name": "Publish to Platforms",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "daily_trigger": {
+      "main": [
+        [
+          {
+            "node": "trend_search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "trend_search": {
+      "main": [
+        [
+          {
+            "node": "product_ideation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_ideation": {
+      "main": [
+        [
+          {
+            "node": "product_parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_parser": {
+      "main": [
+        [
+          {
+            "node": "design_generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "design_generator": {
+      "main": [
+        [
+          {
+            "node": "final_formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "final_formatter": {
+      "main": [
+        [
+          {
+            "node": "publish_product",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "balding_pig_autonomous_empire_community"
+}

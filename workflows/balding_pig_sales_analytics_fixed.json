@@ -1,0 +1,261 @@
+{
+  "name": "Balding Pig - Sales Analytics",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 0 * * *",
+        "triggerAtStartup": false
+      },
+      "id": "daily_analytics",
+      "name": "Daily Analytics Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "code": "// SALES DATA COLLECTION & ANALYSIS\n// Collect sales data from all platforms and analyze performance\n\nconst salesPlatforms = [\n  'shopify',\n  'etsy', \n  'facebook_shop',\n  'instagram_shop'\n];\n\nconst analyticsData = {\n  date: new Date().toISOString().split('T')[0],\n  platforms: [],\n  total_revenue: 0,\n  total_orders: 0,\n  top_products: [],\n  customer_segments: {},\n  trend_performance: {}\n};\n\n// Simulate sales data collection (replace with real API calls)\nfor (const platform of salesPlatforms) {\n  const platformData = {\n    platform: platform,\n    revenue: Math.floor(Math.random() * 1000) + 100,\n    orders: Math.floor(Math.random() * 50) + 5,\n    top_product: `Balding Pig ${platform} Special`,\n    conversion_rate: (Math.random() * 5 + 1).toFixed(2),\n    avg_order_value: 0\n  };\n  \n  platformData.avg_order_value = (platformData.revenue / platformData.orders).toFixed(2);\n  \n  analyticsData.platforms.push(platformData);\n  analyticsData.total_revenue += platformData.revenue;\n  analyticsData.total_orders += platformData.orders;\n}\n\n// Analyze product performance\nanalyticsData.avg_order_value = (analyticsData.total_revenue / analyticsData.total_orders).toFixed(2);\nanalyticsData.performance_grade = analyticsData.total_revenue > 2000 ? 'Excellent' : \n                                 analyticsData.total_revenue > 1000 ? 'Good' : 'Needs Improvement';\n\n// Top performing products (simulated)\nanalyticsData.top_products = [\n  { name: 'Chrome Dome Champion T-Shirt', sales: Math.floor(Math.random() * 50) + 10 },\n  { name: 'Aerodynamic Advantage Hoodie', sales: Math.floor(Math.random() * 30) + 5 },\n  { name: 'Follicle-Free Zone Mug', sales: Math.floor(Math.random() * 40) + 8 }\n];\n\nreturn [{ json: analyticsData }];"
+      },
+      "id": "sales_collector",
+      "name": "Sales Data Collector",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-4"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"system\", \"content\": \"You are The Balding Pig's AI business analyst. Analyze sales data and generate insights for improving merchandise strategy. Focus on trends, customer behavior, and product performance. Provide actionable recommendations with The Balding Pig's witty, confident tone.\"}, {\"role\": \"user\", \"content\": \"Sales Analysis Data:\\n\\nTotal Revenue: ${{ $json.total_revenue }}\\nTotal Orders: {{ $json.total_orders }}\\nAverage Order Value: ${{ $json.avg_order_value }}\\nPerformance Grade: {{ $json.performance_grade }}\\n\\nPlatform Breakdown: {{ JSON.stringify($json.platforms) }}\\n\\nTop Products: {{ JSON.stringify($json.top_products) }}\\n\\nProvide insights and recommendations for The Balding Pig merchandise strategy. What should we focus on next?\"}]"
+            },
+            {
+              "name": "max_tokens",
+              "value": "500"
+            }
+          ]
+        }
+      },
+      "id": "business_insights",
+      "name": "AI Business Insights",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "code": "// FEEDBACK LOOP: Generate next iteration ideas based on performance\nconst insights = $json.choices[0].message.content;\nconst salesData = $('sales_collector').item.json;\n\n// Extract key recommendations from AI insights\nconst recommendations = {\n  timestamp: new Date().toISOString(),\n  performance_summary: salesData.performance_grade,\n  ai_insights: insights,\n  action_items: [],\n  next_trends_to_explore: [],\n  design_adjustments: [],\n  marketing_focus: [],\n  revenue_optimization: []\n};\n\n// Parse insights for actionable items\nconst insightLines = insights.split('\\n');\nfor (const line of insightLines) {\n  const cleanLine = line.trim();\n  if (cleanLine.toLowerCase().includes('recommend') || cleanLine.includes('should')) {\n    recommendations.action_items.push(cleanLine);\n  }\n  if (cleanLine.toLowerCase().includes('trend') || cleanLine.includes('popular')) {\n    recommendations.next_trends_to_explore.push(cleanLine);\n  }\n  if (cleanLine.toLowerCase().includes('design') || cleanLine.includes('style')) {\n    recommendations.design_adjustments.push(cleanLine);\n  }\n  if (cleanLine.toLowerCase().includes('market') || cleanLine.includes('customer')) {\n    recommendations.marketing_focus.push(cleanLine);\n  }\n  if (cleanLine.toLowerCase().includes('price') || cleanLine.includes('revenue')) {\n    recommendations.revenue_optimization.push(cleanLine);\n  }\n}\n\n// Generate trigger for next cycle\nrecommendations.trigger_next_cycle = salesData.performance_grade !== 'Excellent' ? 'immediate' : 'scheduled';\nrecommendations.priority_level = salesData.total_revenue < 1000 ? 'urgent' : 'normal';\n\n// Performance metrics\nrecommendations.metrics = {\n  revenue_trend: salesData.total_revenue > 1500 ? 'improving' : 'stable',\n  order_volume_trend: salesData.total_orders > 30 ? 'growing' : 'steady',\n  aov_performance: parseFloat(salesData.avg_order_value) > 30 ? 'strong' : 'needs_improvement'\n};\n\nreturn [{ json: recommendations }];"
+      },
+      "id": "feedback_processor",
+      "name": "Feedback Loop Processor",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://webhook.site/daily-reports",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "report_type",
+              "value": "daily_business_report"
+            },
+            {
+              "name": "date",
+              "value": "={{ $('sales_collector').item.json.date }}"
+            },
+            {
+              "name": "revenue",
+              "value": "={{ $('sales_collector').item.json.total_revenue }}"
+            },
+            {
+              "name": "orders",
+              "value": "={{ $('sales_collector').item.json.total_orders }}"
+            },
+            {
+              "name": "performance_grade",
+              "value": "={{ $('sales_collector').item.json.performance_grade }}"
+            },
+            {
+              "name": "ai_insights",
+              "value": "={{ $json.ai_insights.substring(0, 300) }}..."
+            },
+            {
+              "name": "priority_actions",
+              "value": "={{ JSON.stringify($json.action_items) }}"
+            },
+            {
+              "name": "next_cycle_trigger",
+              "value": "={{ $json.trigger_next_cycle }}"
+            }
+          ]
+        }
+      },
+      "id": "daily_report",
+      "name": "Send Daily Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "operation": "equal"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.trigger_next_cycle }}",
+              "rightValue": "immediate",
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "id": "optimization_trigger",
+      "name": "Optimization Trigger",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://webhook.site/trigger-optimization",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "trigger_type",
+              "value": "immediate_optimization"
+            },
+            {
+              "name": "reason",
+              "value": "Performance needs improvement"
+            },
+            {
+              "name": "recommendations",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        }
+      },
+      "id": "trigger_optimization",
+      "name": "Trigger Product Optimization",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1450, 250]
+    }
+  ],
+  "connections": {
+    "daily_analytics": {
+      "main": [
+        [
+          {
+            "node": "sales_collector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "sales_collector": {
+      "main": [
+        [
+          {
+            "node": "business_insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "business_insights": {
+      "main": [
+        [
+          {
+            "node": "feedback_processor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "feedback_processor": {
+      "main": [
+        [
+          {
+            "node": "daily_report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "daily_report": {
+      "main": [
+        [
+          {
+            "node": "optimization_trigger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "optimization_trigger": {
+      "main": [
+        [
+          {
+            "node": "trigger_optimization",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "balding_pig_sales_analytics"
+}

@@ -1,0 +1,1526 @@
+{
+    "Last Review Date": {
+        "id": "%3BDlJ",
+        "name": "Last Review Date",
+        "type": "date",
+        "date": {}
+    },
+    "Branding Rules": {
+        "id": "%3BaPg",
+        "name": "Branding Rules",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "RnbZ",
+                    "name": "Include logo subtly",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "~VL@",
+                    "name": "maintain brand fonts",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "2a2677ca-9e43-45a9-82e1-bd3f81ca0459",
+                    "name": "Include logo subtly, maintain brand fonts",
+                    "color": "default",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Shopify Status": {
+        "id": "%3C%3EHH",
+        "name": "Shopify Status",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "`@l_",
+                    "name": "Draft",
+                    "color": "gray",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Target Demographics": {
+        "id": "%3C%40uw",
+        "name": "Target Demographics",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "MWCO",
+                    "name": "Young Adults (18-24)",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "OO@p",
+                    "name": "Adults (25-34)",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "Xngg",
+                    "name": "Middle Age (35-54)",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "VoPN",
+                    "name": "Seniors (55+)",
+                    "color": "gray",
+                    "description": null
+                },
+                {
+                    "id": "qEUm",
+                    "name": "Men",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "=kuJ",
+                    "name": "Women",
+                    "color": "pink",
+                    "description": null
+                },
+                {
+                    "id": "c}?`",
+                    "name": "All Genders",
+                    "color": "yellow",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Target Gender(s)": {
+        "id": "%3CCdw",
+        "name": "Target Gender(s)",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "TI\\w",
+                    "name": "All",
+                    "color": "gray",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "SKU": {
+        "id": "%3DZaR",
+        "name": "SKU",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Risk Level": {
+        "id": "%3ED%5BC",
+        "name": "Risk Level",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "R_J;",
+                    "name": "Low",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "Gfq\\",
+                    "name": "Medium",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "X~?@",
+                    "name": "High",
+                    "color": "red",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Design Files": {
+        "id": "%3EEG_",
+        "name": "Design Files",
+        "type": "url",
+        "url": {}
+    },
+    "Emotion / Tone": {
+        "id": "%3FWE%3E",
+        "name": "Emotion / Tone",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "gp|:",
+                    "name": "Confident",
+                    "color": "gray",
+                    "description": null
+                },
+                {
+                    "id": "Rb`m",
+                    "name": "Humorous",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "hp:P",
+                    "name": "Empowering",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "cb6c052d-312a-440c-870e-c4752e744dff",
+                    "name": "Confident, Humorous, Empowering",
+                    "color": "default",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Margin %": {
+        "id": "%3Fsqs",
+        "name": "Margin %",
+        "type": "number",
+        "number": {
+            "format": "number"
+        }
+    },
+    "Sustainability": {
+        "id": "A%3E%3AC",
+        "name": "Sustainability",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "QdQy",
+                    "name": "Recyclable",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "ZYGs",
+                    "name": "Biodegradable",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "jWNp",
+                    "name": "Energy Efficient",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": ";i;;",
+                    "name": "Water Saving",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "<|mW",
+                    "name": "Low Emissions",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "e>@i",
+                    "name": "Eco Packaging",
+                    "color": "brown",
+                    "description": null
+                },
+                {
+                    "id": "WKDU",
+                    "name": "Sustainable Materials",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "Cp^t",
+                    "name": "Zero Waste",
+                    "color": "green",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Product Lifecycle Stage": {
+        "id": "A%3ERp",
+        "name": "Product Lifecycle Stage",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "?OfM",
+                    "name": "Pre-Launch",
+                    "color": "purple",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Last Automated Action": {
+        "id": "C%3EnC",
+        "name": "Last Automated Action",
+        "type": "date",
+        "date": {}
+    },
+    "Color Palette": {
+        "id": "EFtM",
+        "name": "Color Palette",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Design Prompt (Text)": {
+        "id": "I%40%3Er",
+        "name": "Design Prompt (Text)",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Collection Name": {
+        "id": "JwDC",
+        "name": "Collection Name",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Print Method": {
+        "id": "LYrj",
+        "name": "Print Method",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "YcDx",
+                    "name": "DTG",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "=KoN",
+                    "name": "Sublimation",
+                    "color": "gray",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Materials": {
+        "id": "M%5BFm",
+        "name": "Materials",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "[dVO",
+                    "name": "100% Cotton",
+                    "color": "gray",
+                    "description": null
+                },
+                {
+                    "id": "ZnlX",
+                    "name": "Premium Materials",
+                    "color": "brown",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "POD Supplier": {
+        "id": "O%3BEj",
+        "name": "POD Supplier",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "IbD_",
+                    "name": "Printify",
+                    "color": "pink",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Approval Status": {
+        "id": "O%40Lt",
+        "name": "Approval Status",
+        "type": "status",
+        "status": {
+            "options": [
+                {
+                    "id": "k{Ek",
+                    "name": "Pending",
+                    "color": "gray",
+                    "description": null
+                },
+                {
+                    "id": "39b3692b-3496-498f-b48f-cb9730e36f9c",
+                    "name": "In progress",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "eVi\\",
+                    "name": "Rejected",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "0312e454-d6da-4c2b-a911-78b9004c7737",
+                    "name": "Approved",
+                    "color": "green",
+                    "description": null
+                }
+            ],
+            "groups": [
+                {
+                    "id": "430ca39d-2db7-417c-8e25-eb270403a793",
+                    "name": "To-do",
+                    "color": "gray",
+                    "option_ids": [
+                        "k{Ek"
+                    ]
+                },
+                {
+                    "id": "bba20330-8269-4c50-9bb8-27896c28022d",
+                    "name": "In progress",
+                    "color": "blue",
+                    "option_ids": [
+                        "39b3692b-3496-498f-b48f-cb9730e36f9c"
+                    ]
+                },
+                {
+                    "id": "d4544384-7bcf-43a6-bc6e-ed50c5e0b642",
+                    "name": "Complete",
+                    "color": "green",
+                    "option_ids": [
+                        "eVi\\",
+                        "0312e454-d6da-4c2b-a911-78b9004c7737"
+                    ]
+                }
+            ]
+        }
+    },
+    "Assigned Team": {
+        "id": "OoJy",
+        "name": "Assigned Team",
+        "type": "people",
+        "people": {}
+    },
+    "Product Subtitle": {
+        "id": "QpNQ",
+        "name": "Product Subtitle",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": ">Xpi",
+                    "name": "Wear With Confidence",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "ix:G",
+                    "name": "Warmth For The Bold",
+                    "color": "brown",
+                    "description": null
+                },
+                {
+                    "id": "PQVZ",
+                    "name": "Sip With Style",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "YfP`",
+                    "name": "Carry With Pride",
+                    "color": "default",
+                    "description": null
+                },
+                {
+                    "id": "SM~_",
+                    "name": "Stick With Attitude",
+                    "color": "orange",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Special Community Tags": {
+        "id": "S%3CHU",
+        "name": "Special Community Tags",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "EvpW",
+                    "name": "Bald Pride",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "MUgm",
+                    "name": "Humor",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "sdJn",
+                    "name": "Self Confidence",
+                    "color": "pink",
+                    "description": null
+                },
+                {
+                    "id": "8f4365c5-06e7-4a02-bbd6-60b159d0ae15",
+                    "name": "Bald Pride, Humor, Self Confidence",
+                    "color": "default",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Version #": {
+        "id": "TdMM",
+        "name": "Version #",
+        "type": "number",
+        "number": {
+            "format": "number"
+        }
+    },
+    "Tags / SEO Keywords": {
+        "id": "VVHf",
+        "name": "Tags / SEO Keywords",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Created Item Action Request": {
+        "id": "WruO",
+        "name": "Created Item Action Request",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "AS`O",
+                    "name": "Approved",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "=IVT",
+                    "name": "Bank Only",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "|f<~",
+                    "name": "Regenerate",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "oSRL",
+                    "name": "Provide more options",
+                    "color": "yellow",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Creative Direction": {
+        "id": "Y%3F%3CF",
+        "name": "Creative Direction",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "USP": {
+        "id": "Zbk%3F",
+        "name": "USP",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Last Updated": {
+        "id": "%5C%5C%3Es",
+        "name": "Last Updated",
+        "type": "date",
+        "date": {}
+    },
+    "Product Status": {
+        "id": "%5E%5B%3Dv",
+        "name": "Product Status",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "o:Zs",
+                    "name": "Design Ready",
+                    "color": "gray",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Product Type": {
+        "id": "%5Ejy%7D",
+        "name": "Product Type",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "zN{|",
+                    "name": "Electronics",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "sZ<O",
+                    "name": "Clothing",
+                    "color": "pink",
+                    "description": null
+                },
+                {
+                    "id": "]sRw",
+                    "name": "Home & Garden",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "X@iM",
+                    "name": "Beauty",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "faSo",
+                    "name": "Sports",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "dSt|",
+                    "name": "Books",
+                    "color": "brown",
+                    "description": null
+                },
+                {
+                    "id": "m`rK",
+                    "name": "Toys",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "_Cww",
+                    "name": "Food & Beverage",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "ad692260-bc7c-4579-b0dd-279c2e43ba93",
+                    "name": "T-shirt",
+                    "color": "default",
+                    "description": null
+                },
+                {
+                    "id": "f0d3077c-b44e-4dbb-a242-bd1e17d9d694",
+                    "name": "Hoodie",
+                    "color": "default",
+                    "description": null
+                },
+                {
+                    "id": "37e8bd3a-bd10-4881-beeb-0089c9842b59",
+                    "name": "Mug",
+                    "color": "default",
+                    "description": null
+                },
+                {
+                    "id": "d80f6b67-4c7f-48cf-b650-ac38ad975d43",
+                    "name": "Tote Bag",
+                    "color": "default",
+                    "description": null
+                },
+                {
+                    "id": "00a5e3e8-5a8f-496d-b4f3-531d8a592b7a",
+                    "name": "Sticker Pack",
+                    "color": "default",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Reviewer Note": {
+        "id": "_%3Et_",
+        "name": "Reviewer Note",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Customer Rating": {
+        "id": "_K%3Cp",
+        "name": "Customer Rating",
+        "type": "number",
+        "number": {
+            "format": "number"
+        }
+    },
+    "Automation ID": {
+        "id": "%60C%40~",
+        "name": "Automation ID",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "SEO Keywords": {
+        "id": "bRJH",
+        "name": "SEO Keywords",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "~VwB",
+                    "name": "product",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "?Lu{",
+                    "name": "review",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "^yE]",
+                    "name": "how-to",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "~t;|",
+                    "name": "comparison",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "o@rb",
+                    "name": "best",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "BcY^",
+                    "name": "guide",
+                    "color": "pink",
+                    "description": null
+                },
+                {
+                    "id": "YnHX",
+                    "name": "vs",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "PF`;",
+                    "name": "tutorial",
+                    "color": "brown",
+                    "description": null
+                },
+                {
+                    "id": "At\\O",
+                    "name": "tips",
+                    "color": "green",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "AI Prompt Template": {
+        "id": "eInk",
+        "name": "AI Prompt Template",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Bank Version (Save for future use)": {
+        "id": "ev%3Cu",
+        "name": "Bank Version (Save for future use)",
+        "type": "checkbox",
+        "checkbox": {}
+    },
+    "Product Description": {
+        "id": "g%3Fpr",
+        "name": "Product Description",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Collection / Drop Name": {
+        "id": "gWhS",
+        "name": "Collection / Drop Name",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "AI Art Prompt Output": {
+        "id": "gl%3Bw",
+        "name": "AI Art Prompt Output",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "rHYo",
+                    "name": "Pending",
+                    "color": "blue",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Style Tags": {
+        "id": "hraN",
+        "name": "Style Tags",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "[dJy",
+                    "name": "Modern",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "H_ZU",
+                    "name": "Minimalist",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "[XxH",
+                    "name": "Humorous",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "ecafe201-5b7b-4bdd-adc8-250294ce5111",
+                    "name": "Modern, Minimalist, Humorous",
+                    "color": "default",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Manufacturing Details": {
+        "id": "iPaO",
+        "name": "Manufacturing Details",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Sizes Available": {
+        "id": "ifyD",
+        "name": "Sizes Available",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "\\_Vz",
+                    "name": "S",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "^g>b",
+                    "name": "M",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "LGmN",
+                    "name": "L",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "`k|P",
+                    "name": "XL",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "Bvnv",
+                    "name": "2XL",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": ">i:_",
+                    "name": "3XL",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "XpEC",
+                    "name": "One Size",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "fa9008ec-9316-49f4-b9f2-ec9fba9fb06b",
+                    "name": "S, M, L, XL, 2XL, 3XL",
+                    "color": "default",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Integration Status": {
+        "id": "ijlP",
+        "name": "Integration Status",
+        "type": "status",
+        "status": {
+            "options": [
+                {
+                    "id": ">:OP",
+                    "name": "Not Started",
+                    "color": "gray",
+                    "description": null
+                },
+                {
+                    "id": "IwK@",
+                    "name": "In Progress",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "|_k@",
+                    "name": "Active",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "^q?v",
+                    "name": "Failed",
+                    "color": "red",
+                    "description": null
+                }
+            ],
+            "groups": [
+                {
+                    "id": "T]Yr",
+                    "name": "To-do",
+                    "color": "default",
+                    "option_ids": [
+                        ">:OP"
+                    ]
+                },
+                {
+                    "id": "mSt`",
+                    "name": "In progress",
+                    "color": "default",
+                    "option_ids": [
+                        "IwK@"
+                    ]
+                },
+                {
+                    "id": "M@ma",
+                    "name": "Complete",
+                    "color": "default",
+                    "option_ids": [
+                        "|_k@",
+                        "^q?v"
+                    ]
+                }
+            ]
+        }
+    },
+    "E-commerce IDs": {
+        "id": "jD%5CS",
+        "name": "E-commerce IDs",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Base Cost": {
+        "id": "jjz%5E",
+        "name": "Base Cost",
+        "type": "number",
+        "number": {
+            "format": "number"
+        }
+    },
+    "Retail Price": {
+        "id": "jnrs",
+        "name": "Retail Price",
+        "type": "number",
+        "number": {
+            "format": "number"
+        }
+    },
+    "Product Tier": {
+        "id": "mfs%7C",
+        "name": "Product Tier",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "tXMO",
+                    "name": "Premium",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "K]<;",
+                    "name": "Limited Edition",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "bJq}",
+                    "name": "Standard",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "]eKV",
+                    "name": "Budget",
+                    "color": "gray",
+                    "description": null
+                },
+                {
+                    "id": "d958cf8a-8679-4dd7-8b5c-92cbdb8c3a2e",
+                    "name": "Tier 1 - Budget Friendly",
+                    "color": "default",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Final Version URL": {
+        "id": "oIvq",
+        "name": "Final Version URL",
+        "type": "url",
+        "url": {}
+    },
+    "Marketing Channels": {
+        "id": "p%7Dci",
+        "name": "Marketing Channels",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "Wi:b",
+                    "name": "Social Media",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "KH@@",
+                    "name": "Email Marketing",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "~E=G",
+                    "name": "Search/PPC",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "ORp=",
+                    "name": "Retail Stores",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "\\cRy",
+                    "name": "Direct Sales",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "NyDf",
+                    "name": "Affiliates",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "mo;F",
+                    "name": "PR/Media",
+                    "color": "pink",
+                    "description": null
+                },
+                {
+                    "id": "jNAH",
+                    "name": "Online Marketplace",
+                    "color": "brown",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Launch Date": {
+        "id": "qgS%3C",
+        "name": "Launch Date",
+        "type": "date",
+        "date": {}
+    },
+    "ID": {
+        "id": "rQiQ",
+        "name": "ID",
+        "type": "unique_id",
+        "unique_id": {
+            "prefix": "BPP"
+        }
+    },
+    "Automation Notes": {
+        "id": "tyAm",
+        "name": "Automation Notes",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Performance Rating": {
+        "id": "vBlG",
+        "name": "Performance Rating",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "meIL",
+                    "name": "N/A",
+                    "color": "green",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Market Region": {
+        "id": "vGbH",
+        "name": "Market Region",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "\\u@=",
+                    "name": "North America",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "gW;N",
+                    "name": "Europe",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "irmD",
+                    "name": "Asia Pacific",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "|^?m",
+                    "name": "Latin America",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "}VP\\",
+                    "name": "Middle East",
+                    "color": "brown",
+                    "description": null
+                },
+                {
+                    "id": "sKPR",
+                    "name": "Africa",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "JS_@",
+                    "name": "Global",
+                    "color": "pink",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Lifecycle Stage": {
+        "id": "wZs%3E",
+        "name": "Lifecycle Stage",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "ugpK",
+                    "name": "Introduction",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "ANm^",
+                    "name": "Growth",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "O:y_",
+                    "name": "Maturity",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "woER",
+                    "name": "Decline",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "DNpg",
+                    "name": "End of Life",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "60d788c7-2fca-4230-8529-3c5454308bc3",
+                    "name": "Conceptualization",
+                    "color": "pink",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Fulfillment Region": {
+        "id": "wtPr",
+        "name": "Fulfillment Region",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": ":uM}",
+                    "name": "Global",
+                    "color": "purple",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Automation Triggers": {
+        "id": "xZI%7C",
+        "name": "Automation Triggers",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "Aa{l",
+                    "name": "New Record",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "CKWj",
+                    "name": "Status Change",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "qxam",
+                    "name": "Due Date",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "opgj",
+                    "name": "Field Update",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "aNv_",
+                    "name": "Task Complete",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "nX~T",
+                    "name": "Schedule",
+                    "color": "gray",
+                    "description": null
+                },
+                {
+                    "id": "bR]:",
+                    "name": "API Call",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "Npw}",
+                    "name": "Manual Trigger",
+                    "color": "brown",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Status": {
+        "id": "zOjQ",
+        "name": "Status",
+        "type": "status",
+        "status": {
+            "options": [
+                {
+                    "id": "fnQ^",
+                    "name": "Ideation",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "Lido",
+                    "name": "Image Generated",
+                    "color": "red",
+                    "description": null
+                },
+                {
+                    "id": "RO=]",
+                    "name": "Development",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "LggC",
+                    "name": "Production",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": "H:g`",
+                    "name": "Active",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "qHK}",
+                    "name": "Retired",
+                    "color": "gray",
+                    "description": null
+                }
+            ],
+            "groups": [
+                {
+                    "id": "~dl@",
+                    "name": "To-do",
+                    "color": "default",
+                    "option_ids": [
+                        "fnQ^"
+                    ]
+                },
+                {
+                    "id": "`Lt:",
+                    "name": "In progress",
+                    "color": "default",
+                    "option_ids": [
+                        "Lido",
+                        "RO=]",
+                        "LggC"
+                    ]
+                },
+                {
+                    "id": "ynkV",
+                    "name": "Complete",
+                    "color": "default",
+                    "option_ids": [
+                        "H:g`",
+                        "qHK}"
+                    ]
+                }
+            ]
+        }
+    },
+    "AI Art Prompt Version": {
+        "id": "z%5E%5CZ",
+        "name": "AI Art Prompt Version",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "\\KX|",
+                    "name": "v1.0",
+                    "color": "pink",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Target Age Group(s)": {
+        "id": "%7BRRq",
+        "name": "Target Age Group(s)",
+        "type": "select",
+        "select": {
+            "options": [
+                {
+                    "id": "FeBy",
+                    "name": "Adult",
+                    "color": "purple",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Review Count": {
+        "id": "%7Bbww",
+        "name": "Review Count",
+        "type": "number",
+        "number": {
+            "format": "number"
+        }
+    },
+    "Legal Compliance": {
+        "id": "%7CHE%5B",
+        "name": "Legal Compliance",
+        "type": "multi_select",
+        "multi_select": {
+            "options": [
+                {
+                    "id": "nRc:",
+                    "name": "FDA Approved",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "zyUt",
+                    "name": "CE Certified",
+                    "color": "blue",
+                    "description": null
+                },
+                {
+                    "id": ";^nr",
+                    "name": "ISO 9001",
+                    "color": "purple",
+                    "description": null
+                },
+                {
+                    "id": "HxEC",
+                    "name": "GDPR Compliant",
+                    "color": "orange",
+                    "description": null
+                },
+                {
+                    "id": "=d@p",
+                    "name": "Patent Pending",
+                    "color": "yellow",
+                    "description": null
+                },
+                {
+                    "id": "CboM",
+                    "name": "Patent Granted",
+                    "color": "green",
+                    "description": null
+                },
+                {
+                    "id": "YZXz",
+                    "name": "Trademark",
+                    "color": "pink",
+                    "description": null
+                },
+                {
+                    "id": "u^PM",
+                    "name": "Pending Review",
+                    "color": "gray",
+                    "description": null
+                }
+            ]
+        }
+    },
+    "Parent item": {
+        "id": "%7Cj%3AM",
+        "name": "Parent item",
+        "type": "relation",
+        "relation": {
+            "database_id": "1c374ec0-3114-808f-8e4b-cfbadfd69718",
+            "type": "dual_property",
+            "dual_property": {
+                "synced_property_name": "Sub-item",
+                "synced_property_id": "%7C%7D%3FA"
+            }
+        }
+    },
+    "Sub-item": {
+        "id": "%7C%7D%3FA",
+        "name": "Sub-item",
+        "type": "relation",
+        "relation": {
+            "database_id": "1c374ec0-3114-808f-8e4b-cfbadfd69718",
+            "type": "dual_property",
+            "dual_property": {
+                "synced_property_name": "Parent item",
+                "synced_property_id": "%7Cj%3AM"
+            }
+        }
+    },
+    "Product Name": {
+        "id": "title",
+        "name": "Product Name",
+        "type": "title",
+        "title": {}
+    },
+    "AI summary": {
+        "id": "notion%3A%2F%2Funtyped%2Fai_summary_property",
+        "name": "AI summary",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "AI keywords": {
+        "id": "notion%3A%2F%2Funtyped%2Fai_keywords_property",
+        "name": "AI keywords",
+        "type": "multi_select",
+        "multi_select": {
+            "options": []
+        }
+    },
+    "AI translation": {
+        "id": "notion%3A%2F%2Funtyped%2Fai_translation_property",
+        "name": "AI translation",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Custom AI autofill": {
+        "id": "notion%3A%2F%2Funtyped%2Fai_custom_autofill_property",
+        "name": "Custom AI autofill",
+        "type": "rich_text",
+        "rich_text": {}
+    },
+    "Google Drive File": {
+        "id": "notion%3A%2F%2Ffeature%2Fconnection_property_2e19d8ee-fc61-48c1-be14-07a3aff43542",
+        "name": "Google Drive File",
+        "description": "",
+        "type": "relation",
+        "relation": {
+            "database_id": "1c374ec0-3114-80c8-a803-000b981c28fa",
+            "type": "dual_property",
+            "dual_property": {
+                "synced_property_name": "Related to balding_pig_product_cycle_auto (Google Drive File)",
+                "synced_property_id": "%7BCL%3C"
+            }
+        }
+    },
+    "Figma File": {
+        "id": "notion%3A%2F%2Ffeature%2Fconnection_property_3a6a5bc3-6b3a-467e-9fc5-de4b6024a0e1",
+        "name": "Figma File",
+        "type": "relation",
+        "relation": {
+            "database_id": "1c374ec0-3114-80c8-a803-000b981c28fa",
+            "type": "dual_property",
+            "dual_property": {
+                "synced_property_name": "Related to balding_pig_product_cycle_auto (Figma File)",
+                "synced_property_id": "%3BAyE"
+            }
+        }
+    },
+    "GitHub Pull Requests": {
+        "id": "notion%3A%2F%2Ffeature%2Fconnection_property_b759b994-5c32-4268-bbb0-41f435abb8d9",
+        "name": "GitHub Pull Requests",
+        "type": "relation",
+        "relation": {
+            "database_id": "1c374ec0-3114-80c8-a803-000b981c28fa",
+            "type": "dual_property",
+            "dual_property": {
+                "synced_property_name": "Related to balding_pig_product_cycle_auto (GitHub Pull Requests)",
+                "synced_property_id": "s%3B%40o"
+            }
+        }
+    }
+}

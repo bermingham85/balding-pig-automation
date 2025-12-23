@@ -1,0 +1,144 @@
+{
+  "name": "Balding Pig - Sales Analytics & Feedback Loop",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 0 * * *",
+        "triggerAtStartup": false
+      },
+      "id": "daily_analytics",
+      "name": "Daily Sales Analytics",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "code": "// SALES DATA COLLECTION & ANALYSIS\n// Collect sales data from all platforms and analyze performance\n\nconst salesPlatforms = [\n  'shopify',\n  'etsy', \n  'amazon',\n  'ebay',\n  'facebook_shop',\n  'instagram_shop'\n];\n\nconst analyticsData = {\n  date: new Date().toISOString().split('T')[0],\n  platforms: [],\n  total_revenue: 0,\n  total_orders: 0,\n  top_products: [],\n  customer_segments: {},\n  trend_performance: {}\n};\n\n// Simulate sales data collection (replace with real API calls)\nfor (const platform of salesPlatforms) {\n  const platformData = {\n    platform: platform,\n    revenue: Math.floor(Math.random() * 1000) + 100,\n    orders: Math.floor(Math.random() * 50) + 5,\n    top_product: `Balding Pig ${platform} Special`,\n    conversion_rate: (Math.random() * 5 + 1).toFixed(2)\n  };\n  \n  analyticsData.platforms.push(platformData);\n  analyticsData.total_revenue += platformData.revenue;\n  analyticsData.total_orders += platformData.orders;\n}\n\n// Analyze product performance\nanalyticsData.avg_order_value = (analyticsData.total_revenue / analyticsData.total_orders).toFixed(2);\nanalyticsData.performance_grade = analyticsData.total_revenue > 2000 ? 'Excellent' : \n                                 analyticsData.total_revenue > 1000 ? 'Good' : 'Needs Improvement';\n\nreturn [{ json: analyticsData }];"
+      },
+      "id": "sales_collector",
+      "name": "Sales Data Collector",
+      "type": "@kenkaiii/n8n-nodes-supercode",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "balding_pig_sales",
+        "columns": "date, total_revenue, total_orders, avg_order_value, performance_grade, platform_data",
+        "values": "{{ $json.date }}, {{ $json.total_revenue }}, {{ $json.total_orders }}, {{ $json.avg_order_value }}, '{{ $json.performance_grade }}', '{{ JSON.stringify($json.platforms) }}'"
+      },
+      "id": "store_analytics", 
+      "name": "Store Analytics Data",
+      "type": "@spurt.dev/n8n-nodes-clickhouse",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "complete",
+        "model": "deepseek-chat",
+        "prompt": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are The Balding Pig's AI business analyst. Analyze sales data and generate insights for improving merchandise strategy. Focus on trends, customer behavior, and product performance. Provide actionable recommendations."
+            },
+            {
+              "role": "user", 
+              "content": "Sales Analysis Data:\\n\\nTotal Revenue: ${{ $json.total_revenue }}\\nTotal Orders: {{ $json.total_orders }}\\nAverage Order Value: ${{ $json.avg_order_value }}\\nPerformance Grade: {{ $json.performance_grade }}\\n\\nPlatform Breakdown: {{ JSON.stringify($json.platforms) }}\\n\\nProvide insights and recommendations for The Balding Pig merchandise strategy. What should we focus on next?"
+            }
+          ]
+        }
+      },
+      "id": "business_insights",
+      "name": "AI Business Insights",
+      "type": "n8n-nodes-deepseek",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "code": "// FEEDBACK LOOP: Generate next iteration ideas based on performance\nconst insights = $input.first().json.choices[0].message.content;\nconst salesData = $input.all()[1].json;\n\n// Extract key recommendations from AI insights\nconst recommendations = {\n  timestamp: new Date().toISOString(),\n  performance_summary: salesData.performance_grade,\n  ai_insights: insights,\n  action_items: [],\n  next_trends_to_explore: [],\n  design_adjustments: [],\n  marketing_focus: []\n};\n\n// Parse insights for actionable items\nconst insightLines = insights.split('\\n');\nfor (const line of insightLines) {\n  if (line.toLowerCase().includes('recommend') || line.includes('should')) {\n    recommendations.action_items.push(line.trim());\n  }\n  if (line.toLowerCase().includes('trend') || line.includes('popular')) {\n    recommendations.next_trends_to_explore.push(line.trim());\n  }\n  if (line.toLowerCase().includes('design') || line.includes('style')) {\n    recommendations.design_adjustments.push(line.trim());\n  }\n  if (line.toLowerCase().includes('market') || line.includes('customer')) {\n    recommendations.marketing_focus.push(line.trim());\n  }\n}\n\n// Generate trigger for next cycle\nrecommendations.trigger_next_cycle = salesData.performance_grade !== 'Excellent' ? 'immediate' : 'scheduled';\nrecommendations.priority_level = salesData.total_revenue < 1000 ? 'urgent' : 'normal';\n\nreturn [{ json: recommendations }];"
+      },
+      "id": "feedback_processor",
+      "name": "Feedback Loop Processor", 
+      "type": "@kenkaiii/n8n-nodes-supercode",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "message": "📊 BALDING PIG DAILY REPORT 📊\\n\\n💰 Revenue: ${{ $('sales_collector').item.json.total_revenue }}\\n📦 Orders: {{ $('sales_collector').item.json.total_orders }}\\n📈 Grade: {{ $('sales_collector').item.json.performance_grade }}\\n\\n🎯 AI Insights: {{ $json.ai_insights.substring(0, 200) }}...\\n\\n#BaldingPigAnalytics #BusinessIntelligence",
+        "chatId": "YOUR_BUSINESS_WHATSAPP_GROUP"
+      },
+      "id": "daily_report",
+      "name": "Daily Business Report",
+      "type": "n8n-nodes-evolution-api",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "daily_analytics": {
+      "main": [
+        [
+          {
+            "node": "sales_collector",
+            "type": "main", 
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "sales_collector": {
+      "main": [
+        [
+          {
+            "node": "store_analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "store_analytics": {
+      "main": [
+        [
+          {
+            "node": "business_insights", 
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "business_insights": {
+      "main": [
+        [
+          {
+            "node": "feedback_processor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "feedback_processor": {
+      "main": [
+        [
+          {
+            "node": "daily_report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "id": "balding_pig_sales_analytics"
+}

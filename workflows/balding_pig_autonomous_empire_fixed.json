@@ -1,0 +1,160 @@
+{
+  "name": "Balding Pig - Autonomous Empire",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 6 * * *",
+        "triggerAtStartup": false
+      },
+      "id": "daily_trigger",
+      "name": "Daily Automation Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "code": "// BALDING PIG TREND ANALYSIS\n// Generate product ideas based on current trends\n\nconst productIdeas = [\n  {\n    \"name\": \"Chrome Dome Champion\",\n    \"category\": \"t-shirt\", \n    \"design_theme\": \"Motivational baldness\",\n    \"target_price\": 25.99,\n    \"description\": \"For the confidently bald warrior\"\n  },\n  {\n    \"name\": \"Aerodynamic Advantage\",\n    \"category\": \"hoodie\",\n    \"design_theme\": \"Scientific humor\", \n    \"target_price\": 45.99,\n    \"description\": \"Because less drag = more speed\"\n  },\n  {\n    \"name\": \"Follicle-Free Zone\",\n    \"category\": \"mug\",\n    \"design_theme\": \"Office humor\",\n    \"target_price\": 15.99,\n    \"description\": \"Workplace bald pride\"\n  },\n  {\n    \"name\": \"Bald & Bold\",\n    \"category\": \"cap\", \n    \"design_theme\": \"Ironic fashion\",\n    \"target_price\": 19.99,\n    \"description\": \"Ironically wearing a hat\"\n  },\n  {\n    \"name\": \"Smooth Operator\",\n    \"category\": \"stickers\",\n    \"design_theme\": \"Cool confidence\",\n    \"target_price\": 4.99,\n    \"description\": \"Slick and smooth\"\n  }\n];\n\n// Return all product ideas for processing\nreturn productIdeas.map(idea => ({ json: idea }));"
+      },
+      "id": "product_generator",
+      "name": "Product Idea Generator", 
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type", 
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-4"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"system\", \"content\": \"You are The Balding Pig's creative director. Create witty, satirical product descriptions that embrace baldness with humor and confidence.\"}, {\"role\": \"user\", \"content\": \"Create a detailed product description for: {{ $json.name }} - {{ $json.description }}. Make it funny, confident, and appealing to people who embrace their baldness.\"}]"
+            },
+            {
+              "name": "max_tokens", 
+              "value": "200"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ai_copywriter",
+      "name": "AI Product Copywriter",
+      "type": "n8n-nodes-base.httpRequest", 
+      "typeVersion": 4,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "code": "// PRODUCT LISTING CREATOR\n// Format product data for e-commerce platforms\n\nconst productData = {\n  title: $json.name,\n  category: $json.category,\n  price: $json.target_price,\n  description: $json.choices?.[0]?.message?.content || $json.description,\n  tags: [\n    'bald', 'baldness', 'humor', 'confidence', 'chrome dome',\n    'follicularly challenged', 'the balding pig', $json.design_theme\n  ],\n  images: [\n    `https://placeholder.com/400x400?text=${encodeURIComponent($json.name)}`\n  ],\n  variants: getVariants($json.category),\n  inventory: 50,\n  status: 'draft',\n  created_date: new Date().toISOString(),\n  platform_ready: true\n};\n\nfunction getVariants(category) {\n  const variants = {\n    't-shirt': ['S', 'M', 'L', 'XL', 'XXL'],\n    'hoodie': ['S', 'M', 'L', 'XL', 'XXL'], \n    'mug': ['11oz', '15oz'],\n    'cap': ['One Size'],\n    'stickers': ['Pack of 5', 'Pack of 10']\n  };\n  return variants[category] || ['One Size'];\n}\n\nreturn { json: productData };"
+      },
+      "id": "product_formatter",
+      "name": "Product Data Formatter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2, 
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://webhook.site/your-webhook-url",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json" 
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "product",
+              "value": "={{ $json }}"
+            },
+            {
+              "name": "action",
+              "value": "create_product"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ]
+        }
+      },
+      "id": "product_publisher",
+      "name": "Publish to Platforms",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1050, 300]
+    }
+  ],
+  "connections": {
+    "daily_trigger": {
+      "main": [
+        [
+          {
+            "node": "product_generator",
+            "type": "main", 
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_generator": {
+      "main": [
+        [
+          {
+            "node": "ai_copywriter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_copywriter": {
+      "main": [
+        [
+          {
+            "node": "product_formatter", 
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_formatter": {
+      "main": [
+        [
+          {
+            "node": "product_publisher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "balding_pig_autonomous_empire"
+}

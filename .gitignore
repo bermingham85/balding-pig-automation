@@ -1,0 +1,32 @@
+# Environment variables and secrets
+.env
+*.env
+!.env.example
+master.env
+cleaned_master.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Backups
+backups/
+*.bak
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

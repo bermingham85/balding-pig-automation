@@ -1,0 +1,129 @@
+{
+  "name": "Balding Pig - AI Customer Service",
+  "nodes": [
+    {
+      "parameters": {
+        "webhookId": "balding-pig-customer-inquiry"
+      },
+      "id": "customer_inquiry_webhook",
+      "name": "Customer Inquiry Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "complete",
+        "model": "deepseek-chat",
+        "prompt": {
+          "messages": [
+            {
+              "role": "system", 
+              "content": "You are The Balding Pig customer service AI. You're witty, helpful, and slightly sarcastic - matching the brand's satirical tone. Handle inquiries about merchandise, orders, sizes, and returns with humor but provide accurate information. Keep responses under 200 words."
+            },
+            {
+              "role": "user",
+              "content": "Customer Inquiry: {{ $json.body.message }}\\n\\nCustomer Platform: {{ $json.body.platform }}\\nOrder ID (if any): {{ $json.body.order_id }}\\n\\nProvide a helpful, brand-appropriate response."
+            }
+          ]
+        }
+      },
+      "id": "ai_customer_response",
+      "name": "AI Customer Service",
+      "type": "n8n-nodes-deepseek", 
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "operation": "equal"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.body.platform }}",
+              "rightValue": "whatsapp",
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "id": "platform_router",
+      "name": "Platform Router",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "message": "{{ $('ai_customer_response').item.json.choices[0].message.content }}",
+        "chatId": "{{ $json.body.customer_id }}"
+      },
+      "id": "whatsapp_response",
+      "name": "WhatsApp Response",
+      "type": "n8n-nodes-evolution-api",
+      "typeVersion": 1,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "message": "{{ $('ai_customer_response').item.json.choices[0].message.content }}",
+        "platforms": ["twitter", "facebook", "instagram"]
+      },
+      "id": "social_response",
+      "name": "Social Media Response", 
+      "type": "n8n-nodes-auto-socials-post",
+      "typeVersion": 1,
+      "position": [850, 400]
+    }
+  ],
+  "connections": {
+    "customer_inquiry_webhook": {
+      "main": [
+        [
+          {
+            "node": "ai_customer_response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_customer_response": {
+      "main": [
+        [
+          {
+            "node": "platform_router", 
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "platform_router": {
+      "main": [
+        [
+          {
+            "node": "whatsapp_response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "social_response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "id": "balding_pig_customer_service"
+}

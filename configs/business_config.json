@@ -1,0 +1,67 @@
+{
+  "business_info": {
+    "name": "The Balding Pig",
+    "owner": "Michael Bermingham",
+    "businesses": ["Rentasling", "Bermech Ltd", "The Balding Pig"],
+    "focus_areas": ["Satirical merchandise", "AI automation", "E-commerce"],
+    "brand_voice": "Witty, sarcastic, embracing baldness with humor"
+  },
+  "product_catalog": {
+    "categories": [
+      {
+        "name": "T-Shirts",
+        "base_price": 25.99,
+        "variants": ["S", "M", "L", "XL", "XXL"],
+        "designs": ["Bald Pride", "Chrome Dome", "Follicularly Challenged", "Aerodynamic Head"]
+      },
+      {
+        "name": "Hoodies", 
+        "base_price": 45.99,
+        "variants": ["S", "M", "L", "XL", "XXL"],
+        "designs": ["Keep Your Head Warm", "Bald & Bold", "No Hair Don't Care"]
+      },
+      {
+        "name": "Mugs",
+        "base_price": 15.99,
+        "variants": ["11oz", "15oz"],
+        "designs": ["Bald Coffee Better", "Chrome Dome Caffeine", "Smooth Operator"]
+      },
+      {
+        "name": "Caps",
+        "base_price": 19.99, 
+        "variants": ["One Size"],
+        "designs": ["Ironically Wearing This", "Hair Club Reject", "Bald Disguise"]
+      },
+      {
+        "name": "Stickers",
+        "base_price": 4.99,
+        "variants": ["Pack of 5", "Pack of 10"],
+        "designs": ["Bald Badge", "Chrome Club", "Smooth Society"]
+      }
+    ]
+  },
+  "sales_platforms": {
+    "shopify": {
+      "enabled": true,
+      "store_url": "thebaldingpig.com",
+      "primary_platform": true
+    },
+    "etsy": {
+      "enabled": true,
+      "shop_name": "BaldingPigDesigns",
+      "specialty": "Custom designs"
+    },
+    "amazon": {
+      "enabled": false,
+      "setup_required": true
+    },
+    "facebook_shop": {
+      "enabled": true,
+      "connected_to_shopify": true
+    },
+    "instagram_shop": {
+      "enabled": true, 
+      "connected_to_shopify": true
+    }
+  }
+}

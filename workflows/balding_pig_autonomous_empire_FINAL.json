@@ -1,0 +1,222 @@
+{
+  "name": "Balding Pig - Autonomous Empire FINAL",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 6 * * *",
+        "triggerAtStartup": false
+      },
+      "id": "daily_trigger",
+      "name": "Daily Automation Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "query": "trending bald jokes memes 2025 merchandise viral satirical humor chrome dome",
+        "search_depth": "basic",
+        "max_results": 5
+      },
+      "id": "trend_search",
+      "name": "Tavily Trend Search",
+      "type": "n8n-nodes-tavily.tavily",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "message",
+        "model": "deepseek-chat",
+        "messages": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are The Balding Pig's creative director. Create witty, satirical product ideas that embrace baldness with humor and confidence. Based on trending topics, generate exactly 3 product concepts with: name, category (t-shirt/hoodie/mug/cap/stickers), price, and satirical description."
+            },
+            {
+              "role": "user",
+              "content": "Trending topics: {{ JSON.stringify($json.results) }}\\n\\nCreate 3 Balding Pig products that satirically embrace these trends while celebrating baldness with confidence and humor."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.8,
+          "max_tokens": 600
+        }
+      },
+      "id": "deepseek_ideation",
+      "name": "DeepSeek Product Ideas",
+      "type": "n8n-nodes-deepseek.deepseek",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "code": "// SUPERCODE ENHANCED PRODUCT PROCESSOR\\nconst response = $json.message?.content || $json.response || $json.text || '';\\n\\n// Extract product data using advanced parsing\\nconst products = [];\\nconst sections = response.split(/\\d+\\.|Product\\s+\\d+/i);\\n\\nfor (let i = 1; i < sections.length; i++) {\\n  const section = sections[i].trim();\\n  if (!section) continue;\\n  \\n  const product = {\\n    id: `bp_${Date.now()}_${i}`,\\n    created: new Date().toISOString(),\\n    source: 'deepseek_ai'\\n  };\\n  \\n  // Extract name (first line or after colon)\\n  const nameMatch = section.match(/^[^\\n]*?:?\\s*(.+?)(?:\\n|$)/);\\n  product.name = nameMatch ? nameMatch[1].trim().replace(/[\\\"\\*]/g, '') : `Balding Pig Product ${i}`;\\n  \\n  // Extract category\\n  const categoryMatch = section.match(/(t-shirt|hoodie|mug|cap|stickers)/i);\\n  product.category = categoryMatch ? categoryMatch[1].toLowerCase() : 't-shirt';\\n  \\n  // Set pricing by category\\n  const pricing = {\\n    't-shirt': 25.99,\\n    'hoodie': 45.99,\\n    'mug': 15.99,\\n    'cap': 19.99,\\n    'stickers': 4.99\\n  };\\n  product.price = pricing[product.category];\\n  \\n  // Extract price if specified\\n  const priceMatch = section.match(/\\$([0-9.]+)/);\\n  if (priceMatch) {\\n    product.price = parseFloat(priceMatch[1]);\\n  }\\n  \\n  // Extract description\\n  const descLines = section.split('\\n').filter(line => \\n    line.trim() && \\n    !line.match(/(category|price|\\$)/i) &&\\n    line !== product.name\\n  );\\n  product.description = descLines.join(' ').substring(0, 200).trim();\\n  \\n  // Add Balding Pig branding\\n  product.tags = ['bald', 'humor', 'satirical', 'confidence', 'chrome-dome', 'balding-pig'];\\n  product.brand = 'The Balding Pig';\\n  \\n  // SEO optimization\\n  product.seo_title = `${product.name} - Balding Pig ${product.category}`;\\n  product.seo_description = `${product.description} Perfect for the confidently bald.`;\\n  \\n  products.push(product);\\n}\\n\\n// Fallback if parsing fails\\nif (products.length === 0) {\\n  products.push({\\n    id: `bp_fallback_${Date.now()}`,\\n    name: 'Chrome Dome Champion',\\n    category: 't-shirt',\\n    price: 25.99,\\n    description: 'For the confidently bald warrior who embraces their aerodynamic advantage',\\n    tags: ['bald', 'humor', 'satirical', 'confidence'],\\n    brand: 'The Balding Pig',\\n    created: new Date().toISOString(),\\n    source: 'fallback_generation'\\n  });\\n}\\n\\nreturn products.map(p => ({ json: p }));"
+      },
+      "id": "supercode_parser",
+      "name": "SuperCode Product Parser",
+      "type": "@kenkaiii/n8n-nodes-supercode",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "workflow_prompt": "t2i",
+        "positive_prompt": "minimalist satirical design for '{{ $json.name }}', balding pig themed, {{ $json.category }}, clean humor about baldness, professional merchandise design, bold typography, simple graphics",
+        "negative_prompt": "complex, cluttered, offensive, inappropriate, low quality, blurry",
+        "width": 512,
+        "height": 512,
+        "steps": 25,
+        "cfg_scale": 7,
+        "seed": -1,
+        "sampler": "euler"
+      },
+      "id": "comfyui_design",
+      "name": "ComfyUI Design Generator",
+      "type": "n8n-nodes-comfyui.comfyui",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "model_id": "eleven_multilingual_v2",
+        "voice_id": "pNInz6obpgDQGcFmaJgB",
+        "text": "New product alert! {{ $json.name }} - {{ $json.description }}. Available now from The Balding Pig - where bald is bold!",
+        "voice_settings": {
+          "stability": 0.75,
+          "similarity_boost": 0.85
+        }
+      },
+      "id": "elevenlabs_voice",
+      "name": "ElevenLabs Product Audio",
+      "type": "n8n-nodes-elevenlabs.elevenlabs",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "code": "// FINAL PRODUCT ASSEMBLY FOR ECOMMERCE\\nconst product = $('supercode_parser').item.json;\\nconst design = $('comfyui_design').item?.json;\\nconst audio = $('elevenlabs_voice').item?.json;\\n\\n// Create comprehensive product package\\nconst finalProduct = {\\n  // Core product data\\n  id: product.id,\\n  name: product.name,\\n  category: product.category,\\n  price: product.price,\\n  description: product.description,\\n  brand: 'The Balding Pig',\\n  \\n  // Generated assets\\n  design_url: design?.output_images?.[0] || design?.image_url || `https://via.placeholder.com/512x512?text=${encodeURIComponent(product.name)}`,\\n  audio_url: audio?.audio_url || null,\\n  \\n  // E-commerce data\\n  sku: `BP-${product.category.toUpperCase()}-${product.id.slice(-6)}`,\\n  inventory: 50,\\n  weight: getWeight(product.category),\\n  dimensions: getDimensions(product.category),\\n  \\n  // Variants\\n  variants: getVariants(product.category),\\n  \\n  // SEO and marketing\\n  tags: product.tags,\\n  seo_title: product.seo_title,\\n  seo_description: product.seo_description,\\n  meta_keywords: product.tags.join(', '),\\n  \\n  // Platform readiness\\n  platforms: {\\n    shopify: { ready: true, status: 'draft' },\\n    etsy: { ready: true, status: 'draft' },\\n    facebook_shop: { ready: true, status: 'draft' },\\n    instagram_shop: { ready: true, status: 'draft' }\\n  },\\n  \\n  // Timestamps\\n  created_at: new Date().toISOString(),\\n  updated_at: new Date().toISOString(),\\n  \\n  // Source tracking\\n  generation_source: 'autonomous_ai_system',\\n  workflow_id: 'balding_pig_empire',\\n  trend_data: $('trend_search').item?.json\\n};\\n\\nfunction getWeight(category) {\\n  const weights = {\\n    't-shirt': '0.2kg',\\n    'hoodie': '0.8kg',\\n    'mug': '0.4kg',\\n    'cap': '0.15kg',\\n    'stickers': '0.05kg'\\n  };\\n  return weights[category] || '0.2kg';\\n}\\n\\nfunction getDimensions(category) {\\n  const dimensions = {\\n    't-shirt': '25x35x2cm',\\n    'hoodie': '30x40x5cm',\\n    'mug': '12x12x10cm',\\n    'cap': '20x20x15cm',\\n    'stickers': '10x15x0.5cm'\\n  };\\n  return dimensions[category] || '25x35x2cm';\\n}\\n\\nfunction getVariants(category) {\\n  const variants = {\\n    't-shirt': [\\n      { name: 'Small', sku_suffix: 'S', price_modifier: 0 },\\n      { name: 'Medium', sku_suffix: 'M', price_modifier: 0 },\\n      { name: 'Large', sku_suffix: 'L', price_modifier: 0 },\\n      { name: 'X-Large', sku_suffix: 'XL', price_modifier: 2 },\\n      { name: 'XX-Large', sku_suffix: 'XXL', price_modifier: 4 }\\n    ],\\n    'hoodie': [\\n      { name: 'Small', sku_suffix: 'S', price_modifier: 0 },\\n      { name: 'Medium', sku_suffix: 'M', price_modifier: 0 },\\n      { name: 'Large', sku_suffix: 'L', price_modifier: 0 },\\n      { name: 'X-Large', sku_suffix: 'XL', price_modifier: 5 },\\n      { name: 'XX-Large', sku_suffix: 'XXL', price_modifier: 8 }\\n    ],\\n    'mug': [\\n      { name: '11oz Standard', sku_suffix: '11', price_modifier: 0 },\\n      { name: '15oz Large', sku_suffix: '15', price_modifier: 3 }\\n    ],\\n    'cap': [\\n      { name: 'One Size Fits Most', sku_suffix: 'OS', price_modifier: 0 }\\n    ],\\n    'stickers': [\\n      { name: 'Pack of 5', sku_suffix: 'P5', price_modifier: 0 },\\n      { name: 'Pack of 10', sku_suffix: 'P10', price_modifier: 3 }\\n    ]\\n  };\\n  return variants[category] || [{ name: 'Standard', sku_suffix: 'STD', price_modifier: 0 }];\\n}\\n\\nreturn { json: finalProduct };"
+      },
+      "id": "final_assembly",
+      "name": "Final Product Assembly",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.shopify.com/admin/api/2023-10/products.json",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "shopifyApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "product",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        }
+      },
+      "id": "shopify_publisher",
+      "name": "Publish to Shopify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1650, 300]
+    }
+  ],
+  "connections": {
+    "daily_trigger": {
+      "main": [
+        [
+          {
+            "node": "trend_search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "trend_search": {
+      "main": [
+        [
+          {
+            "node": "deepseek_ideation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deepseek_ideation": {
+      "main": [
+        [
+          {
+            "node": "supercode_parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "supercode_parser": {
+      "main": [
+        [
+          {
+            "node": "comfyui_design",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "comfyui_design": {
+      "main": [
+        [
+          {
+            "node": "elevenlabs_voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "elevenlabs_voice": {
+      "main": [
+        [
+          {
+            "node": "final_assembly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "final_assembly": {
+      "main": [
+        [
+          {
+            "node": "shopify_publisher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "balding_pig_autonomous_empire_final"
+}
