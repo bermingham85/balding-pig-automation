@@ -1,0 +1,306 @@
+{
+  "name": "Balding Pig V2 - Product Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "trigger",
+      "name": "Schedule Trigger (Hourly)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "database",
+        "operation": "getAll",
+        "databaseId": "={{ $env.NOTION_TRENDS_DB }}",
+        "simple": false,
+        "options": {
+          "filter": {
+            "filters": [
+              {
+                "key": "Status",
+                "condition": "equals",
+                "value": "active"
+              }
+            ]
+          },
+          "sort": [
+            {
+              "key": "Relevance Score",
+              "direction": "descending"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "id": "notion_get_trend",
+      "name": "Get Active Trend from Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "1",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// BALDING PIG PROMPT GENERATOR\n// Uses Wondrai's proven pop art template adapted for satirical bald humor\n\nconst trendData = $input.item.json;\nconst trendTopic = trendData.properties?.Topic?.title?.[0]?.plain_text || 'chrome dome lifestyle';\nconst trendColors = trendData.properties?.Colors?.rich_text?.[0]?.plain_text || 'silver and bold blue';\n\n// Balding Pig subjects (satirical bald humor)\nconst subjects = [\n  'a confident chrome-domed businessman radiating success',\n  'a bald eagle with a shiny head wearing sunglasses',\n  'a sleek aerodynamic skull with racing stripes',\n  'a wise bald sage surrounded by floating hair follicles',\n  'a superhero with a gleaming bald head saving the day',\n  'a disco ball headed character dancing with confidence',\n  'a bald lion wearing a crown of confidence',\n  'a minimalist zen master with a polished dome',\n  'a retro astronaut with helmet hair... just kidding, bald!',\n  'a cartoon pig with a shiny bald head wearing a crown'\n];\n\n// Select subject based on trend or random\nconst subject = subjects[Math.floor(Math.random() * subjects.length)];\n\n// Build dynamic prompt using Wondrai template\nconst prompt = `Create a pop art pattern featuring ${subject}, with a primary color scheme of ${trendColors}. The design should include bold abstract shapes, thick black outlines, Ben-Day dots, and comic-style motifs. The subject should be stylized in a dynamic and playful manner with satirical humor about baldness, contributing to a trendy and contemporary brand identity for \"The Balding Pig\" merchandise. The pattern should balance large and small elements, ensuring an engaging and visually striking composition. Aim for a design that is eye-catching, modern, and reflects a confident, humorous aesthetic that celebrates being bald with pride. Include subtle references to ${trendTopic}.`;\n\n// Generate product name\nconst productNames = [\n  `Chrome Dome ${trendTopic.split(' ')[0]} Edition`,\n  `Bald & Bold: ${trendTopic.split(' ')[0]} Series`,\n  `The Aerodynamic Advantage ${trendTopic.split(' ')[0]}`,\n  `Follicle-Free ${trendTopic.split(' ')[0]} Collection`,\n  `Smooth Operator ${trendTopic.split(' ')[0]} Design`,\n  `Baldness Pride ${trendTopic.split(' ')[0]} Limited`\n];\n\nconst productName = productNames[Math.floor(Math.random() * productNames.length)];\n\n// Product categories rotation\nconst categories = ['t-shirt', 'hoodie', 'mug', 'tote-bag', 'poster'];\nconst category = categories[Math.floor(Math.random() * categories.length)];\n\nreturn {\n  json: {\n    prompt: prompt,\n    productName: productName,\n    category: category,\n    trendTopic: trendTopic,\n    colors: trendColors,\n    subject: subject,\n    brand: 'The Balding Pig',\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "id": "prompt_builder",
+      "name": "Build Dynamic Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "generate",
+        "model": "dall-e-3",
+        "prompt": "={{ $json.prompt }}",
+        "options": {
+          "size": "1024x1024",
+          "quality": "standard",
+          "style": "vivid"
+        }
+      },
+      "id": "dalle_generate",
+      "name": "DALL-E 3 Generate Image",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [900, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "2",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data[0].url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "download_image",
+      "name": "Download Generated Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// IMAGE QUALITY VALIDATOR\n// Ensures generated images meet quality standards\n\nconst imageData = $input.item.binary;\nconst productData = $('prompt_builder').item.json;\n\nif (!imageData || !imageData.data) {\n  throw new Error('No image data received from DALL-E');\n}\n\n// Check image size (should be 1024x1024)\nconst imageSize = imageData.data.fileSize || 0;\nif (imageSize < 50000) { // Less than 50KB is suspicious\n  throw new Error('Generated image file size too small - possible quality issue');\n}\n\n// Quality score (simple heuristic)\nconst qualityScore = Math.min(100, (imageSize / 1000)); // Rough score\n\nreturn {\n  json: {\n    ...productData,\n    imageData: imageData,\n    imageSize: imageSize,\n    qualityScore: qualityScore,\n    validated: true,\n    validatedAt: new Date().toISOString()\n  },\n  binary: imageData\n};"
+      },
+      "id": "validate_image",
+      "name": "Validate Image Quality",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.printful.com/products",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "printfulApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.PRINTFUL_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"sync_product\": {\n    \"name\": \"{{ $json.productName }}\",\n    \"thumbnail\": \"{{ $json.imageData.data.url }}\"\n  },\n  \"sync_variants\": [\n    {\n      \"variant_id\": {{ $json.category === 't-shirt' ? '4012' : $json.category === 'hoodie' ? '4017' : $json.category === 'mug' ? '19' : $json.category === 'poster' ? '1' : '4013' }},\n      \"retail_price\": \"{{ $json.category === 't-shirt' ? '25.99' : $json.category === 'hoodie' ? '45.99' : $json.category === 'mug' ? '15.99' : $json.category === 'poster' ? '19.99' : '29.99' }}\",\n      \"files\": [\n        {\n          \"url\": \"{{ $json.imageData.data.url }}\"\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "printful_create",
+      "name": "Create Product on Printful",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "resource": "product",
+        "operation": "create",
+        "title": "={{ $('validate_image').item.json.productName }}",
+        "productCategory": "=Apparel & Accessories",
+        "additionalFields": {
+          "body_html": "=<p><strong>{{ $('validate_image').item.json.productName }}</strong></p><p>From The Balding Pig collection - celebrating confidence, humor, and the aerodynamic lifestyle!</p><p>{{ $('validate_image').item.json.prompt.substring(0, 200) }}...</p><p><em>Trend: {{ $('validate_image').item.json.trendTopic }}</em></p>",
+          "tags": "bald,humor,satirical,chrome-dome,balding-pig,{{ $('validate_image').item.json.category }}",
+          "vendor": "The Balding Pig",
+          "status": "draft",
+          "images": [\n            {\n              \"src\": \"={{ $('validate_image').item.json.imageData.data.url }}\"\n            }\n          ]\n        }\n      },
+      "id": "shopify_create",
+      "name": "Publish to Shopify",
+      "type": "n8n-nodes-base.shopify",
+      "typeVersion": 1,
+      "position": [1780, 300],
+      "credentials": {
+        "shopifyApi": {
+          "id": "3",
+          "name": "Shopify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "page",
+        "operation": "create",
+        "pageId": "={{ $env.NOTION_PRODUCTS_DB }}",
+        "simple": false,
+        "properties": {\n          "properties": [\n            {\n              "key": "Name",\n              "textContent": "={{ $('validate_image').item.json.productName }}"\n            },\n            {\n              "key": "Category",\n              "selectValue": "={{ $('validate_image').item.json.category }}"\n            },\n            {\n              "key": "Trend Topic",\n              "textContent": "={{ $('validate_image').item.json.trendTopic }}"\n            },\n            {\n              "key": "Shopify URL",\n              "url": "={{ $json.admin_graphql_api_id }}"\n            },\n            {\n              "key": "Status",\n              "selectValue": "published"\n            },\n            {\n              "key": "Generated Date",\n              "date": "={{ $('validate_image').item.json.timestamp }}"\n            },\n            {\n              "key": "Quality Score",\n              "number": "={{ $('validate_image').item.json.qualityScore }}"\n            }\n          ]\n        }
+      },
+      "id": "notion_log_product",
+      "name": "Log Product to Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [2000, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "1",
+          "name": "Notion account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "trigger": {
+      "main": [
+        [
+          {
+            "node": "notion_get_trend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "notion_get_trend": {
+      "main": [
+        [
+          {
+            "node": "prompt_builder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "prompt_builder": {
+      "main": [
+        [
+          {
+            "node": "dalle_generate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dalle_generate": {
+      "main": [
+        [
+          {
+            "node": "download_image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "download_image": {
+      "main": [
+        [
+          {
+            "node": "validate_image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "validate_image": {
+      "main": [
+        [
+          {
+            "node": "printful_create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "printful_create": {
+      "main": [
+        [
+          {
+            "node": "shopify_create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "shopify_create": {
+      "main": [
+        [
+          {
+            "node": "notion_log_product",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "{{ $env.ERROR_WORKFLOW_ID }}"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "Balding Pig V2",
+      "id": "1"
+    },
+    {
+      "name": "Production",
+      "id": "2"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-02T21:28:00.000Z",
+  "versionId": "1"
+}
